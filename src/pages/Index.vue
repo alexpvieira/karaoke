@@ -2,7 +2,7 @@
 	<q-page padding>
 		<q-input clearable outlined v-model="search" debounce="500" placeholder="Busque por artista ou música" type="search" class="q-mb-md" />
 
-		<q-infinite-scroll @load="onLoad" :offset="50" ref="scroll">
+		<q-infinite-scroll @load="onLoad" :offset="500" ref="scroll">
 			<q-list bordered separator padding>
 				<q-item v-for="(song, index) in filteredSongs" :key="song.code">
 					<q-item-section>
@@ -24,6 +24,10 @@
 				</q-item>
 			</q-list>
 		</q-infinite-scroll>
+
+		<q-page-sticky position="bottom-right" :offset="[18, 18]">
+            <q-btn fab icon="far fa-arrow-up" color="accent" @click="goToTop()" />
+		</q-page-sticky>
 	</q-page>
 </template>
 
@@ -49,10 +53,10 @@ export default {
 
 				return this.songs.filter((s) => {
 					return s.singer.toString().toUpperCase().includes(this.search.toUpperCase()) || s.title.toString().toUpperCase().includes(this.search.toUpperCase())
-				}).slice(0, (this.index * 10) + 10)
+				}).slice(0, (this.index * 20) + 20)
 			}
 
-			return this.songs.slice(0, (this.index * 10) + 10)
+			return this.songs.slice(0, (this.index * 20) + 20)
 		}
 	},
 
@@ -60,6 +64,10 @@ export default {
 		onLoad(index, done) {
 			this.index = index
 			done()
+		},
+
+		goToTop() {
+			window.scrollTo(0,0)
 		}
 	},
 
