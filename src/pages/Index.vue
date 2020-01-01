@@ -160,7 +160,7 @@ export default {
 	created() {
 		this.$q.loading.show()
 
-		this.list = this.$q.localStorage.getItem('list')
+		this.list = this.$q.localStorage.has('list') ? this.$q.localStorage.getItem('list') : []
 
 		this.$rtdbBind('songs', db.ref('songs').orderByChild('singer')).then(songs => {
 			this.songs === songs
